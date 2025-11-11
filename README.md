@@ -38,3 +38,4 @@ npm run dev
 - `GET /api/auth/me` - Get current user (requires auth)
 - `POST /api/auth/logout` - Logout
 
+
