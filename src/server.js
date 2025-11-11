@@ -13,15 +13,20 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// Routes
-app.use("/api", routes);
-
-// Root Route
+// Root Route - must be before /api routes
 app.get("/", (req, res) => {
   res.send("✅ Node.js Backend is Running!");
 });
 
-// Error handling middleware (optional)
+// Routes
+app.use("/api", routes);
+
+// 404 handler - must be after all routes
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+// Error handling middleware - must have 4 parameters
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Something went wrong!" });
