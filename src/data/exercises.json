@@ -1,0 +1,1130 @@
+[
+  {
+    "name": "Bench Press",
+    "description": "A compound exercise targeting chest, shoulders, and triceps",
+    "muscleGroups": ["chest", "shoulders", "arms"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0025.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0025.gif",
+    "instructions": [
+      "Lie on bench with feet flat on floor",
+      "Grip bar slightly wider than shoulder width",
+      "Lower bar to chest with control",
+      "Press bar up explosively"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Barbell Squat",
+    "description": "A fundamental lower body exercise targeting quadriceps, glutes, and hamstrings",
+    "muscleGroups": ["legs"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0008.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0008.gif",
+    "instructions": [
+      "Stand with feet shoulder-width apart",
+      "Lower body by bending knees and hips",
+      "Keep chest up and core engaged",
+      "Descend until thighs are parallel to floor",
+      "Drive through heels to return to standing"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Deadlift",
+    "description": "A compound exercise targeting posterior chain including back, glutes, and hamstrings",
+    "muscleGroups": ["back", "legs"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0031.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0031.gif",
+    "instructions": [
+      "Stand with feet hip-width apart, bar over mid-foot",
+      "Bend at hips and knees to grip bar",
+      "Keep back straight and chest up",
+      "Drive through heels and extend hips to lift bar",
+      "Lower bar with control"
+    ],
+    "difficulty": "advanced"
+  },
+  {
+    "name": "Pull Up",
+    "description": "A bodyweight exercise targeting back and biceps",
+    "muscleGroups": ["back", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1301.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1301.gif",
+    "instructions": [
+      "Hang from bar with palms facing away",
+      "Pull body up until chin clears bar",
+      "Lower with control",
+      "Repeat for desired reps"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Push Up",
+    "description": "A bodyweight exercise targeting chest, shoulders, and triceps",
+    "muscleGroups": ["chest", "shoulders", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1164.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1164.gif",
+    "instructions": [
+      "Start in plank position",
+      "Lower body until chest nearly touches floor",
+      "Push back up to starting position",
+      "Keep core engaged throughout"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Dumbbell Bicep Curl",
+    "description": "An isolation exercise targeting biceps",
+    "muscleGroups": ["arms"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1641.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1641.gif",
+    "instructions": [
+      "Stand with dumbbells at sides",
+      "Curl weights up by flexing biceps",
+      "Lower with control",
+      "Keep elbows stationary"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Plank",
+    "description": "An isometric core exercise",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1688.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1688.gif",
+    "instructions": [
+      "Start in push-up position",
+      "Hold body straight from head to heels",
+      "Engage core muscles",
+      "Hold for desired duration"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Barbell Row",
+    "description": "A compound exercise targeting back and biceps",
+    "muscleGroups": ["back", "arms"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0020.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0020.gif",
+    "instructions": [
+      "Bend over with slight knee bend",
+      "Pull bar to lower chest/upper abdomen",
+      "Squeeze back muscles at top",
+      "Lower with control"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Overhead Press",
+    "description": "A compound exercise targeting shoulders and triceps",
+    "muscleGroups": ["shoulders", "arms"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0085.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0085.gif",
+    "instructions": [
+      "Stand with feet shoulder-width apart",
+      "Hold bar at shoulder level",
+      "Press bar overhead until arms are fully extended",
+      "Lower with control"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Dumbbell Bench Press",
+    "description": "A chest exercise using dumbbells for greater range of motion",
+    "muscleGroups": ["chest", "shoulders", "arms"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0030.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0030.gif",
+    "instructions": [
+      "Lie on bench with dumbbells at chest level",
+      "Press dumbbells up and slightly together",
+      "Lower with control",
+      "Keep wrists straight"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Dumbbell Shoulder Press",
+    "description": "An overhead pressing movement targeting shoulders",
+    "muscleGroups": ["shoulders", "arms"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0309.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0309.gif",
+    "instructions": [
+      "Sit or stand with dumbbells at shoulder level",
+      "Press weights overhead",
+      "Lower with control",
+      "Keep core engaged"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Dumbbell Row",
+    "description": "A single-arm rowing exercise for back development",
+    "muscleGroups": ["back", "arms"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0290.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0290.gif",
+    "instructions": [
+      "Place one knee and hand on bench",
+      "Pull dumbbell to hip",
+      "Squeeze back muscle at top",
+      "Lower with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Dumbbell Lateral Raise",
+    "description": "An isolation exercise targeting side deltoids",
+    "muscleGroups": ["shoulders"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0314.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0314.gif",
+    "instructions": [
+      "Stand with dumbbells at sides",
+      "Raise arms out to sides until parallel to floor",
+      "Lower with control",
+      "Keep slight bend in elbows"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Dumbbell Tricep Extension",
+    "description": "An isolation exercise targeting triceps",
+    "muscleGroups": ["arms"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0295.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0295.gif",
+    "instructions": [
+      "Hold dumbbell overhead with both hands",
+      "Lower behind head by bending elbows",
+      "Extend arms to return to start",
+      "Keep elbows stationary"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Dumbbell Squat",
+    "description": "A lower body exercise using dumbbells",
+    "muscleGroups": ["legs"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0305.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0305.gif",
+    "instructions": [
+      "Hold dumbbells at sides",
+      "Squat down until thighs parallel to floor",
+      "Drive through heels to stand",
+      "Keep chest up"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Dumbbell Lunge",
+    "description": "A unilateral leg exercise targeting quads and glutes",
+    "muscleGroups": ["legs"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0306.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0306.gif",
+    "instructions": [
+      "Step forward into lunge position",
+      "Lower back knee toward ground",
+      "Push through front heel to return",
+      "Alternate legs"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Dumbbell Fly",
+    "description": "An isolation exercise targeting chest muscles",
+    "muscleGroups": ["chest"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0292.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0292.gif",
+    "instructions": [
+      "Lie on bench with dumbbells extended",
+      "Lower weights in arc motion",
+      "Feel stretch in chest",
+      "Bring weights back together"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Cable Crossover",
+    "description": "A chest isolation exercise using cables",
+    "muscleGroups": ["chest"],
+    "equipment": "cable",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0228.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0228.gif",
+    "instructions": [
+      "Stand between cable machines",
+      "Pull handles together in front",
+      "Squeeze chest muscles",
+      "Return with control"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Cable Row",
+    "description": "A back exercise using cable machine",
+    "muscleGroups": ["back", "arms"],
+    "equipment": "cable",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0220.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0220.gif",
+    "instructions": [
+      "Sit with feet on platform",
+      "Pull handle to lower chest",
+      "Squeeze back muscles",
+      "Return with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Cable Tricep Pushdown",
+    "description": "An isolation exercise for triceps using cable",
+    "muscleGroups": ["arms"],
+    "equipment": "cable",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0224.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0224.gif",
+    "instructions": [
+      "Stand facing cable machine",
+      "Push handle down until arms extended",
+      "Return with control",
+      "Keep elbows at sides"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Cable Bicep Curl",
+    "description": "A bicep exercise using cable machine",
+    "muscleGroups": ["arms"],
+    "equipment": "cable",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0219.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0219.gif",
+    "instructions": [
+      "Stand facing away from cable machine",
+      "Curl handle up by flexing biceps",
+      "Lower with control",
+      "Keep elbows stationary"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Leg Press",
+    "description": "A machine exercise targeting quadriceps and glutes",
+    "muscleGroups": ["legs"],
+    "equipment": "machine",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1353.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1353.gif",
+    "instructions": [
+      "Sit in leg press machine",
+      "Place feet on platform shoulder-width apart",
+      "Lower weight by bending knees",
+      "Press back up to starting position"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Leg Curl",
+    "description": "A machine exercise targeting hamstrings",
+    "muscleGroups": ["legs"],
+    "equipment": "machine",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1381.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1381.gif",
+    "instructions": [
+      "Lie face down on leg curl machine",
+      "Curl heels toward glutes",
+      "Squeeze hamstrings at top",
+      "Lower with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Leg Extension",
+    "description": "A machine exercise isolating quadriceps",
+    "muscleGroups": ["legs"],
+    "equipment": "machine",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1382.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1382.gif",
+    "instructions": [
+      "Sit in leg extension machine",
+      "Extend legs until fully straight",
+      "Squeeze quads at top",
+      "Lower with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Lat Pulldown",
+    "description": "A machine exercise targeting latissimus dorsi",
+    "muscleGroups": ["back", "arms"],
+    "equipment": "machine",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0200.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0200.gif",
+    "instructions": [
+      "Sit at lat pulldown machine",
+      "Pull bar to upper chest",
+      "Squeeze lats at bottom",
+      "Return with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Chest Press Machine",
+    "description": "A machine exercise targeting chest muscles",
+    "muscleGroups": ["chest", "shoulders", "arms"],
+    "equipment": "machine",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1164.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1164.gif",
+    "instructions": [
+      "Sit in chest press machine",
+      "Press handles forward",
+      "Squeeze chest at extension",
+      "Return with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Chin Up",
+    "description": "A bodyweight exercise with palms facing toward you",
+    "muscleGroups": ["back", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1302.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1302.gif",
+    "instructions": [
+      "Hang from bar with palms facing you",
+      "Pull body up until chin clears bar",
+      "Lower with control",
+      "Focus on biceps and back"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Dips",
+    "description": "A bodyweight exercise targeting triceps and chest",
+    "muscleGroups": ["arms", "chest"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1303.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1303.gif",
+    "instructions": [
+      "Support body on parallel bars",
+      "Lower body by bending arms",
+      "Push back up to starting position",
+      "Keep body upright"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Burpee",
+    "description": "A full-body bodyweight exercise",
+    "muscleGroups": ["cardio", "legs", "core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1258.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1258.gif",
+    "instructions": [
+      "Start standing",
+      "Drop into squat and jump feet back",
+      "Do a push-up",
+      "Jump feet forward and jump up"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Mountain Climber",
+    "description": "A cardio and core exercise",
+    "muscleGroups": ["cardio", "core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1511.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1511.gif",
+    "instructions": [
+      "Start in plank position",
+      "Alternate bringing knees to chest",
+      "Keep core engaged",
+      "Maintain fast pace"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Jumping Jacks",
+    "description": "A full-body cardio exercise",
+    "muscleGroups": ["cardio"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1534.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1534.gif",
+    "instructions": [
+      "Stand with feet together",
+      "Jump while spreading legs and raising arms",
+      "Return to starting position",
+      "Repeat at steady pace"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Russian Twist",
+    "description": "A core exercise targeting obliques",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1757.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1757.gif",
+    "instructions": [
+      "Sit with knees bent and lean back",
+      "Rotate torso side to side",
+      "Keep core engaged",
+      "Can hold weight for added resistance"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Crunches",
+    "description": "A basic core exercise targeting abdominals",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0271.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0271.gif",
+    "instructions": [
+      "Lie on back with knees bent",
+      "Lift shoulders off ground",
+      "Contract abs",
+      "Lower with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Leg Raises",
+    "description": "A core exercise targeting lower abdominals",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1703.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1703.gif",
+    "instructions": [
+      "Lie on back with legs straight",
+      "Raise legs until perpendicular to floor",
+      "Lower with control",
+      "Keep lower back pressed to floor"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Bicycle Crunches",
+    "description": "A core exercise combining crunch and rotation",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0019.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0019.gif",
+    "instructions": [
+      "Lie on back with hands behind head",
+      "Bring opposite knee to opposite elbow",
+      "Alternate sides",
+      "Keep core engaged"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Romanian Deadlift",
+    "description": "A hip-hinge exercise targeting hamstrings and glutes",
+    "muscleGroups": ["legs", "back"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0032.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0032.gif",
+    "instructions": [
+      "Stand holding bar with slight knee bend",
+      "Hinge at hips, lowering bar",
+      "Feel stretch in hamstrings",
+      "Return to standing by extending hips"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Front Squat",
+    "description": "A squat variation with bar in front position",
+    "muscleGroups": ["legs"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0033.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0033.gif",
+    "instructions": [
+      "Hold bar across front shoulders",
+      "Squat down keeping torso upright",
+      "Drive through heels to stand",
+      "Keep elbows up"
+    ],
+    "difficulty": "advanced"
+  },
+  {
+    "name": "Barbell Curl",
+    "description": "A bicep exercise using barbell",
+    "muscleGroups": ["arms"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0005.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0005.gif",
+    "instructions": [
+      "Stand holding barbell with palms up",
+      "Curl bar up by flexing biceps",
+      "Lower with control",
+      "Keep elbows at sides"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Close Grip Bench Press",
+    "description": "A tricep-focused bench press variation",
+    "muscleGroups": ["arms", "chest"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0026.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0026.gif",
+    "instructions": [
+      "Lie on bench with close grip",
+      "Lower bar to chest",
+      "Press up focusing on triceps",
+      "Keep elbows close to body"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Incline Bench Press",
+    "description": "A chest exercise on inclined bench",
+    "muscleGroups": ["chest", "shoulders", "arms"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0027.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0027.gif",
+    "instructions": [
+      "Lie on inclined bench",
+      "Lower bar to upper chest",
+      "Press up explosively",
+      "Targets upper chest"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Decline Bench Press",
+    "description": "A chest exercise on declined bench",
+    "muscleGroups": ["chest", "shoulders", "arms"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0028.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0028.gif",
+    "instructions": [
+      "Lie on declined bench",
+      "Lower bar to lower chest",
+      "Press up explosively",
+      "Targets lower chest"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Barbell Shrug",
+    "description": "An exercise targeting trapezius muscles",
+    "muscleGroups": ["back"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0021.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0021.gif",
+    "instructions": [
+      "Stand holding barbell at sides",
+      "Shrug shoulders up",
+      "Hold briefly at top",
+      "Lower with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Calf Raise",
+    "description": "An exercise targeting calf muscles",
+    "muscleGroups": ["legs"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1386.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1386.gif",
+    "instructions": [
+      "Stand on balls of feet",
+      "Raise up onto toes",
+      "Lower with control",
+      "Can use weights for added resistance"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Hip Thrust",
+    "description": "An exercise targeting glutes",
+    "muscleGroups": ["legs"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0034.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0034.gif",
+    "instructions": [
+      "Sit with upper back against bench",
+      "Place bar across hips",
+      "Drive hips up",
+      "Squeeze glutes at top"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Bulgarian Split Squat",
+    "description": "A unilateral leg exercise",
+    "muscleGroups": ["legs"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0035.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0035.gif",
+    "instructions": [
+      "Place rear foot on elevated surface",
+      "Squat down on front leg",
+      "Keep torso upright",
+      "Drive through front heel"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Hammer Curl",
+    "description": "A bicep exercise with neutral grip",
+    "muscleGroups": ["arms"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0312.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0312.gif",
+    "instructions": [
+      "Hold dumbbells with neutral grip",
+      "Curl weights up",
+      "Targets biceps and forearms",
+      "Lower with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Preacher Curl",
+    "description": "An isolation bicep exercise",
+    "muscleGroups": ["arms"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0006.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0006.gif",
+    "instructions": [
+      "Sit at preacher bench",
+      "Rest arms on pad",
+      "Curl weight up",
+      "Lower with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Skull Crusher",
+    "description": "A tricep isolation exercise",
+    "muscleGroups": ["arms"],
+    "equipment": "barbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0029.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0029.gif",
+    "instructions": [
+      "Lie on bench holding bar",
+      "Lower bar toward forehead",
+      "Extend arms to return",
+      "Keep elbows stationary"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Face Pull",
+    "description": "An exercise targeting rear deltoids",
+    "muscleGroups": ["shoulders", "back"],
+    "equipment": "cable",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0221.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0221.gif",
+    "instructions": [
+      "Pull cable to face level",
+      "Pull rope apart",
+      "Squeeze rear delts",
+      "Return with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Reverse Fly",
+    "description": "An exercise targeting rear deltoids",
+    "muscleGroups": ["shoulders", "back"],
+    "equipment": "dumbbell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0315.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0315.gif",
+    "instructions": [
+      "Bend over with dumbbells",
+      "Raise arms out to sides",
+      "Squeeze rear delts",
+      "Lower with control"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Kettlebell Swing",
+    "description": "A full-body explosive exercise",
+    "muscleGroups": ["legs", "core", "cardio"],
+    "equipment": "kettlebell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0548.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0548.gif",
+    "instructions": [
+      "Swing kettlebell between legs",
+      "Drive hips forward",
+      "Swing to chest height",
+      "Use hip drive, not arms"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Kettlebell Goblet Squat",
+    "description": "A squat variation holding kettlebell",
+    "muscleGroups": ["legs"],
+    "equipment": "kettlebell",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0549.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0549.gif",
+    "instructions": [
+      "Hold kettlebell at chest",
+      "Squat down deep",
+      "Keep torso upright",
+      "Drive through heels"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Wall Sit",
+    "description": "An isometric leg exercise",
+    "muscleGroups": ["legs"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1751.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1751.gif",
+    "instructions": [
+      "Sit against wall with knees at 90 degrees",
+      "Hold position",
+      "Keep back flat against wall",
+      "Hold for desired duration"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Side Plank",
+    "description": "An isometric core exercise targeting obliques",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1704.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1704.gif",
+    "instructions": [
+      "Lie on side propped on elbow",
+      "Raise hips to form straight line",
+      "Hold position",
+      "Keep core engaged"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Dead Bug",
+    "description": "A core stability exercise",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1705.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1705.gif",
+    "instructions": [
+      "Lie on back with arms and legs up",
+      "Lower opposite arm and leg",
+      "Return to start",
+      "Alternate sides"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "High Knees",
+    "description": "A cardio exercise",
+    "muscleGroups": ["cardio", "legs"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1535.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1535.gif",
+    "instructions": [
+      "Run in place",
+      "Bring knees up high",
+      "Pump arms",
+      "Maintain fast pace"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Jump Squat",
+    "description": "An explosive leg exercise",
+    "muscleGroups": ["legs", "cardio"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1536.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1536.gif",
+    "instructions": [
+      "Squat down",
+      "Explode up into jump",
+      "Land softly",
+      "Immediately go into next rep"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Pistol Squat",
+    "description": "An advanced single-leg squat",
+    "muscleGroups": ["legs"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1537.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1537.gif",
+    "instructions": [
+      "Stand on one leg",
+      "Extend other leg forward",
+      "Squat down on one leg",
+      "Return to standing"
+    ],
+    "difficulty": "advanced"
+  },
+  {
+    "name": "Handstand Push Up",
+    "description": "An advanced bodyweight exercise",
+    "muscleGroups": ["shoulders", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1304.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1304.gif",
+    "instructions": [
+      "Get into handstand position",
+      "Lower head toward ground",
+      "Push back up",
+      "Requires significant strength"
+    ],
+    "difficulty": "advanced"
+  },
+  {
+    "name": "Muscle Up",
+    "description": "An advanced bodyweight exercise",
+    "muscleGroups": ["back", "arms", "shoulders"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1305.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1305.gif",
+    "instructions": [
+      "Start hanging from bar",
+      "Pull up explosively",
+      "Transition over bar",
+      "Push up to support position"
+    ],
+    "difficulty": "advanced"
+  },
+  {
+    "name": "Diamond Push Up",
+    "description": "A push-up variation targeting triceps",
+    "muscleGroups": ["arms", "chest"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1165.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1165.gif",
+    "instructions": [
+      "Form diamond shape with hands",
+      "Lower body to hands",
+      "Push back up",
+      "Focus on triceps"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Wide Grip Push Up",
+    "description": "A push-up variation with wider hand placement",
+    "muscleGroups": ["chest", "shoulders"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1166.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1166.gif",
+    "instructions": [
+      "Place hands wider than shoulders",
+      "Lower body to ground",
+      "Push back up",
+      "Targets outer chest"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Incline Push Up",
+    "description": "An easier push-up variation",
+    "muscleGroups": ["chest", "shoulders", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1167.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1167.gif",
+    "instructions": [
+      "Place hands on elevated surface",
+      "Lower body",
+      "Push back up",
+      "Easier than regular push-up"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Decline Push Up",
+    "description": "A harder push-up variation",
+    "muscleGroups": ["chest", "shoulders", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1168.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1168.gif",
+    "instructions": [
+      "Place feet on elevated surface",
+      "Lower body",
+      "Push back up",
+      "Harder than regular push-up"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Pike Push Up",
+    "description": "A push-up variation targeting shoulders",
+    "muscleGroups": ["shoulders", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1169.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1169.gif",
+    "instructions": [
+      "Form inverted V shape",
+      "Lower head toward hands",
+      "Push back up",
+      "Targets shoulders"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Hanging Leg Raise",
+    "description": "An advanced core exercise",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1706.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1706.gif",
+    "instructions": [
+      "Hang from bar",
+      "Raise legs up",
+      "Can bring knees to chest or straight legs",
+      "Lower with control"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "L-Sit",
+    "description": "An advanced core and upper body exercise",
+    "muscleGroups": ["core", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1707.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1707.gif",
+    "instructions": [
+      "Support body on parallel bars or ground",
+      "Lift legs to form L shape",
+      "Hold position",
+      "Keep core engaged"
+    ],
+    "difficulty": "advanced"
+  },
+  {
+    "name": "V-Up",
+    "description": "A core exercise combining leg and torso raise",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1708.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1708.gif",
+    "instructions": [
+      "Lie on back",
+      "Raise legs and torso simultaneously",
+      "Touch toes",
+      "Lower with control"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Flutter Kicks",
+    "description": "A core exercise targeting lower abdominals",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1709.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1709.gif",
+    "instructions": [
+      "Lie on back with legs straight",
+      "Alternate raising legs",
+      "Keep lower back pressed down",
+      "Maintain steady rhythm"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Hollow Body Hold",
+    "description": "An isometric core exercise",
+    "muscleGroups": ["core"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1710.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1710.gif",
+    "instructions": [
+      "Lie on back",
+      "Lift shoulders and legs off ground",
+      "Form banana shape",
+      "Hold position"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Bear Crawl",
+    "description": "A full-body movement exercise",
+    "muscleGroups": ["core", "legs", "shoulders"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1711.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1711.gif",
+    "instructions": [
+      "Start on hands and knees",
+      "Lift knees slightly",
+      "Crawl forward",
+      "Keep core engaged"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Crab Walk",
+    "description": "A full-body movement exercise",
+    "muscleGroups": ["core", "legs", "shoulders", "arms"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1712.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1712.gif",
+    "instructions": [
+      "Sit with hands behind you",
+      "Lift hips up",
+      "Walk forward or backward",
+      "Keep hips elevated"
+    ],
+    "difficulty": "beginner"
+  },
+  {
+    "name": "Sprint",
+    "description": "A high-intensity cardio exercise",
+    "muscleGroups": ["cardio", "legs"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1538.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1538.gif",
+    "instructions": [
+      "Run at maximum speed",
+      "Maintain form",
+      "Pump arms",
+      "Drive knees up"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Box Jump",
+    "description": "An explosive leg exercise",
+    "muscleGroups": ["legs", "cardio"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1539.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1539.gif",
+    "instructions": [
+      "Stand facing box",
+      "Jump onto box",
+      "Land softly",
+      "Step down and repeat"
+    ],
+    "difficulty": "intermediate"
+  },
+  {
+    "name": "Lunge Jump",
+    "description": "An explosive unilateral leg exercise",
+    "muscleGroups": ["legs", "cardio"],
+    "equipment": "bodyweight",
+    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/1540.gif",
+    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/1540.gif",
+    "instructions": [
+      "Start in lunge position",
+      "Jump and switch legs",
+      "Land in opposite lunge",
+      "Repeat quickly"
+    ],
+    "difficulty": "intermediate"
+  }
+]
+

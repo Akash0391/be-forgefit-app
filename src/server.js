@@ -9,10 +9,17 @@ import session from "express-session";
 import passport from "passport";
 
 import { configurePassport } from "./config/passport.js";
+import connectDB from "./config/db.js";
 import routes from "./routes/index.js";
 import authRoutes from "./routes/authRoutes.js";
+import exerciseRoutes from "./routes/exerciseRoutes.js";
 
 const app = express();
+
+// Connect to database (non-blocking)
+connectDB().catch(err => {
+  console.error('Database connection failed, but server will continue');
+});
 
 // Configure Passport strategies after env vars are loaded
 configurePassport();
@@ -52,6 +59,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api", routes);
 app.use("/api/auth", authRoutes);
+app.use("/api/exercises", exerciseRoutes);
 
 // 404 handler - must be after all routes
 app.use((req, res) => {
