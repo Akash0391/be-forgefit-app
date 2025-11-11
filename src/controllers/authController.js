@@ -9,14 +9,31 @@ export const initiateGoogleAuth = (req, res, next) => {
     });
   }
   
+  // Store redirect destination in session (default to /workout)
+  const redirectTo = req.query.redirect || "/workout";
+  req.session.oauthRedirect = redirectTo;
+  
+  // Check if this is a signup flow (to force account selection)
+  const isSignup = req.query.signup === "true";
+  
   const callbackURL = `${process.env.BACKEND_URL || "http://localhost:5000"}/api/auth/google/callback`;
   console.log("🔐 Initiating Google OAuth...");
   console.log("   Callback URL:", callbackURL);
+  console.log("   Redirect to:", redirectTo);
+  console.log("   Is Signup:", isSignup);
   console.log("   Client ID:", process.env.GOOGLE_CLIENT_ID?.substring(0, 20) + "...");
   
-  passport.authenticate("google", {
+  // Build authentication options
+  const authOptions = {
     scope: ["profile", "email"],
-  })(req, res, next);
+  };
+  
+  // For signup, force account selection screen to always show
+  if (isSignup) {
+    authOptions.prompt = "select_account";
+  }
+  
+  passport.authenticate("google", authOptions)(req, res, next);
 };
 
 // Handle Google OAuth callback
@@ -31,8 +48,11 @@ export const handleGoogleCallback = (req, res, next) => {
       return res.redirect(`${process.env.FRONTEND_URL || "http://localhost:3000"}/login?error=auth_failed`);
     }
     // Successful authentication - req.user is set by passport
-    // Redirect to frontend workout page
-    res.redirect(`${process.env.FRONTEND_URL || "http://localhost:3000"}/workout`);
+    // Get redirect destination from session (default to /workout)
+    const redirectTo = req.session.oauthRedirect || "/workout";
+    delete req.session.oauthRedirect; // Clean up session
+    const frontendURL = process.env.FRONTEND_URL || "http://localhost:3000";
+    res.redirect(`${frontendURL}${redirectTo}`);
   });
 };
 
