@@ -31,8 +31,8 @@ export const handleGoogleCallback = (req, res, next) => {
       return res.redirect(`${process.env.FRONTEND_URL || "http://localhost:3000"}/login?error=auth_failed`);
     }
     // Successful authentication - req.user is set by passport
-    // Redirect to frontend
-    res.redirect(`${process.env.FRONTEND_URL || "http://localhost:3000"}/home`);
+    // Redirect to frontend workout page
+    res.redirect(`${process.env.FRONTEND_URL || "http://localhost:3000"}/workout`);
   });
 };
 
@@ -60,20 +60,32 @@ export const getCurrentUser = (req, res) => {
 
 // Logout user
 export const logout = (req, res) => {
+  console.log("Logout endpoint called");
+  
+  // Check if user is logged in
+  if (!req.user) {
+    console.log("No user session found, but proceeding with logout");
+  }
+  
   req.logout((err) => {
     if (err) {
+      console.error("Error in req.logout:", err);
       return res.status(500).json({
         success: false,
         message: "Error logging out",
       });
     }
+    console.log("req.logout successful, destroying session");
+    
     req.session.destroy((err) => {
       if (err) {
+        console.error("Error destroying session:", err);
         return res.status(500).json({
           success: false,
           message: "Error destroying session",
         });
       }
+      console.log("Session destroyed, clearing cookie");
       res.clearCookie("connect.sid");
       res.json({
         success: true,
