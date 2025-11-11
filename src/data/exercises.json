@@ -4,8 +4,8 @@
     "description": "A compound exercise targeting chest, shoulders, and triceps",
     "muscleGroups": ["chest", "shoulders", "arms"],
     "equipment": "barbell",
-    "gifUrl": "https://d205bpvrqc9yn1.cloudfront.net/0025.gif",
-    "thumbnailUrl": "https://d205bpvrqc9yn1.cloudfront.net/0025.gif",
+    "gifUrl": "/exercises/Barbell-Bench-Press.gif",
+    "thumbnailUrl": "/exercises/Barbell-Bench-Press-Thumbnail.png",
     "instructions": [
       "Lie on bench with feet flat on floor",
       "Grip bar slightly wider than shoulder width",
