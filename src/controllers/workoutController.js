@@ -279,3 +279,42 @@ export const getWorkoutHistory = async (req, res) => {
   }
 };
 
+// Delete workout
+export const deleteWorkout = async (req, res) => {
+  try {
+    const { workoutId } = req.params;
+
+    if (!workoutId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Workout ID is required'
+      });
+    }
+
+    const workout = await Workout.findOne({
+      _id: workoutId,
+      userId: req.user.id
+    });
+
+    if (!workout) {
+      return res.status(404).json({
+        success: false,
+        message: 'Workout not found'
+      });
+    }
+
+    await Workout.findByIdAndDelete(workoutId);
+
+    res.json({
+      success: true,
+      message: 'Workout deleted successfully'
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error deleting workout',
+      error: error.message
+    });
+  }
+};
+
