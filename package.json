@@ -7,6 +7,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "seed:exercises": "node src/scripts/seedExercises.js",
+    "delete:workouts": "node src/scripts/deleteAllWorkouts.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

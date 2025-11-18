@@ -10,6 +10,15 @@ const workoutSchema = new mongoose.Schema({
     type: String,
     default: 'Quick Start Workout'
   },
+  description: {
+    type: String,
+    default: ''
+  },
+  visibility: {
+    type: String,
+    enum: ['Everyone', 'Private'],
+    default: 'Everyone'
+  },
   exercises: [{
     exerciseId: {
       type: mongoose.Schema.Types.ObjectId,

@@ -208,6 +208,52 @@ export const discardWorkout = async (req, res) => {
   }
 };
 
+// Update completed workout details (name, description, visibility)
+export const updateWorkoutDetails = async (req, res) => {
+  try {
+    const { workoutId, name, description, visibility } = req.body;
+
+    if (!workoutId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Workout ID is required'
+      });
+    }
+
+    const workout = await Workout.findOne({
+      _id: workoutId,
+      userId: req.user.id,
+      status: 'completed'
+    });
+
+    if (!workout) {
+      return res.status(404).json({
+        success: false,
+        message: 'Completed workout not found'
+      });
+    }
+
+    if (name !== undefined) workout.name = name;
+    if (description !== undefined) workout.description = description;
+    if (visibility !== undefined) workout.visibility = visibility;
+
+    await workout.save();
+    await workout.populate('exercises.exerciseId');
+    await workout.populate('supersetGroups.exerciseIds');
+
+    res.json({
+      success: true,
+      data: workout
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: 'Error updating workout details',
+      error: error.message
+    });
+  }
+};
+
 // Get workout history
 export const getWorkoutHistory = async (req, res) => {
   try {
