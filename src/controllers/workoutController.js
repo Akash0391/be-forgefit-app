@@ -259,7 +259,11 @@ export const getWorkoutHistory = async (req, res) => {
   try {
     const workouts = await Workout.find({
       userId: req.user.id,
-      status: 'completed'
+      status: 'completed',
+      $or: [
+        { isRoutine: { $exists: false } },
+        { isRoutine: false }
+      ]
     })
       .populate('exercises.exerciseId')
       .populate('supersetGroups.exerciseIds')
