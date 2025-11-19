@@ -318,3 +318,100 @@ export const deleteWorkout = async (req, res) => {
   }
 };
 
+// Save routine
+export const saveRoutine = async (req, res) => {
+  try {
+    const { name, exercises, supersetGroups } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Routine name is required'
+      });
+    }
+
+    if (!exercises || exercises.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'At least one exercise is required'
+      });
+    }
+
+    // Prepare exercises with order
+    const exercisesData = exercises.map((ex, index) => {
+      // Convert exerciseId to ObjectId if it's a string
+      const exerciseId = ex.exercise?._id || ex.exerciseId || ex._id;
+      return {
+        exerciseId: mongoose.Types.ObjectId.isValid(exerciseId) 
+          ? new mongoose.Types.ObjectId(exerciseId) 
+          : exerciseId,
+        order: index,
+        notes: ex.notes || '',
+        sets: ex.sets || []
+      };
+    });
+
+    // Prepare superset groups
+    const supersetGroupsData = (supersetGroups || []).map(group => {
+      const ids = Array.isArray(group) ? group : (group.exerciseIds || []);
+      return {
+        exerciseIds: ids.map(id => 
+          mongoose.Types.ObjectId.isValid(id) 
+            ? new mongoose.Types.ObjectId(id) 
+            : id
+        )
+      };
+    });
+
+    // Create new routine
+    const routine = new Workout({
+      userId: req.user.id,
+      name: name.trim(),
+      exercises: exercisesData,
+      supersetGroups: supersetGroupsData,
+      duration: 0,
+      status: 'completed', // Routines are saved as completed workouts
+      isRoutine: true
+    });
+
+    await routine.save();
+    await routine.populate('exercises.exerciseId');
+    await routine.populate('supersetGroups.exerciseIds');
+
+    res.json({
+      success: true,
+      data: routine
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: 'Error saving routine',
+      error: error.message
+    });
+  }
+};
+
+// Get all routines for user
+export const getRoutines = async (req, res) => {
+  try {
+    const routines = await Workout.find({
+      userId: req.user.id,
+      isRoutine: true
+    })
+      .populate('exercises.exerciseId')
+      .populate('supersetGroups.exerciseIds')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: routines
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching routines',
+      error: error.message
+    });
+  }
+};
+

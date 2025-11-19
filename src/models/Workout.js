@@ -76,6 +76,10 @@ const workoutSchema = new mongoose.Schema({
     type: String,
     enum: ['in-progress', 'completed', 'discarded'],
     default: 'in-progress'
+  },
+  isRoutine: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
@@ -84,6 +88,7 @@ const workoutSchema = new mongoose.Schema({
 // Index for faster queries
 workoutSchema.index({ userId: 1, status: 1 });
 workoutSchema.index({ userId: 1, createdAt: -1 });
+workoutSchema.index({ userId: 1, isRoutine: 1 });
 
 export default mongoose.model('Workout', workoutSchema);
 
