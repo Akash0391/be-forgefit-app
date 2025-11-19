@@ -419,3 +419,91 @@ export const getRoutines = async (req, res) => {
   }
 };
 
+// Update routine
+export const updateRoutine = async (req, res) => {
+  try {
+    const { routineId, name, exercises, supersetGroups } = req.body;
+
+    if (!routineId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Routine ID is required'
+      });
+    }
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Routine name is required'
+      });
+    }
+
+    if (!exercises || exercises.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'At least one exercise is required'
+      });
+    }
+
+    // Find the routine
+    const routine = await Workout.findOne({
+      _id: routineId,
+      userId: req.user.id,
+      isRoutine: true
+    });
+
+    if (!routine) {
+      return res.status(404).json({
+        success: false,
+        message: 'Routine not found'
+      });
+    }
+
+    // Prepare exercises with order
+    const exercisesData = exercises.map((ex, index) => {
+      // Convert exerciseId to ObjectId if it's a string
+      const exerciseId = ex.exercise?._id || ex.exerciseId || ex._id;
+      return {
+        exerciseId: mongoose.Types.ObjectId.isValid(exerciseId) 
+          ? new mongoose.Types.ObjectId(exerciseId) 
+          : exerciseId,
+        order: index,
+        notes: ex.notes || '',
+        sets: ex.sets || []
+      };
+    });
+
+    // Prepare superset groups
+    const supersetGroupsData = (supersetGroups || []).map(group => {
+      const ids = Array.isArray(group) ? group : (group.exerciseIds || []);
+      return {
+        exerciseIds: ids.map(id => 
+          mongoose.Types.ObjectId.isValid(id) 
+            ? new mongoose.Types.ObjectId(id) 
+            : id
+        )
+      };
+    });
+
+    // Update routine
+    routine.name = name.trim();
+    routine.exercises = exercisesData;
+    routine.supersetGroups = supersetGroupsData;
+
+    await routine.save();
+    await routine.populate('exercises.exerciseId');
+    await routine.populate('supersetGroups.exerciseIds');
+
+    res.json({
+      success: true,
+      data: routine
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: 'Error updating routine',
+      error: error.message
+    });
+  }
+};
+

@@ -9,7 +9,8 @@ import {
   getWorkoutHistory,
   deleteWorkout,
   saveRoutine,
-  getRoutines
+  getRoutines,
+  updateRoutine
 } from '../controllers/workoutController.js';
 import { isAuthenticated } from '../middleware/authMiddleware.js';
 
@@ -27,6 +28,7 @@ router.put('/details', updateWorkoutDetails);
 router.get('/history', getWorkoutHistory);
 router.post('/routines', saveRoutine);
 router.get('/routines', getRoutines);
+router.put('/routines', updateRoutine);
 router.delete('/:workoutId', deleteWorkout);
 
 export default router;
