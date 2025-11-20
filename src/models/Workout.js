@@ -50,6 +50,8 @@ const workoutSchema = new mongoose.Schema({
         type: Number,
         default: 0
       },
+      minReps: { type: Number, default: null }, // optional range
+      maxReps: { type: Number, default: null }, // optional range
       completed: {
         type: Boolean,
         default: false

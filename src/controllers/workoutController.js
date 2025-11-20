@@ -1,6 +1,36 @@
 import mongoose from 'mongoose';
 import Workout from '../models/Workout.js';
 
+
+// helper: normalizeSets - respects absence of min/max and doesn't overwrite unintentionally
+const normalizeSets = (sets = []) => {
+  return (sets || []).map((s) => {
+    // make a shallow copy
+    const set = { ...s };
+
+    // If reps is a string with '-' (like "8-12") parse it into minReps/maxReps
+    if (typeof set.reps === 'string' && set.reps.includes('-')) {
+      const parts = set.reps.split('-').map(v => parseInt(v.trim(), 10));
+      const min = Number.isFinite(parts[0]) ? parts[0] : null;
+      const max = Number.isFinite(parts[1]) ? parts[1] : null;
+      if (min !== null) set.minReps = min;
+      if (max !== null) set.maxReps = max;
+      // Optionally keep or remove set.reps string; we'll keep it for backward compatibility
+    }
+
+    // If client explicitly provided minReps or maxReps (numbers), keep them
+    // (This includes the case where client sends only min or only max)
+    if (set.minReps != null) set.minReps = Number(set.minReps);
+    if (set.maxReps != null) set.maxReps = Number(set.maxReps);
+
+    // If neither minReps nor maxReps provided, do NOTHING to minReps/maxReps.
+    // This preserves existing DB values during updates if you assign only changed fields.
+    // If you're replacing the whole sets array (create/save), then minReps/maxReps will remain null.
+
+    return set;
+  });
+};
+
 // Get active workout for user
 export const getActiveWorkout = async (req, res) => {
   try {
@@ -48,12 +78,12 @@ export const saveWorkout = async (req, res) => {
       // Convert exerciseId to ObjectId if it's a string
       const exerciseId = ex._id || ex.exerciseId;
       return {
-        exerciseId: mongoose.Types.ObjectId.isValid(exerciseId) 
-          ? new mongoose.Types.ObjectId(exerciseId) 
+        exerciseId: mongoose.Types.ObjectId.isValid(exerciseId)
+          ? new mongoose.Types.ObjectId(exerciseId)
           : exerciseId,
         order: index,
         notes: ex.notes || '',
-        sets: ex.sets || []
+        sets: normalizeSets(ex.sets || [])
       };
     });
 
@@ -61,9 +91,9 @@ export const saveWorkout = async (req, res) => {
     const supersetGroupsData = (supersetGroups || []).map(group => {
       const ids = Array.isArray(group) ? group : (group.exerciseIds || []);
       return {
-        exerciseIds: ids.map(id => 
-          mongoose.Types.ObjectId.isValid(id) 
-            ? new mongoose.Types.ObjectId(id) 
+        exerciseIds: ids.map(id =>
+          mongoose.Types.ObjectId.isValid(id)
+            ? new mongoose.Types.ObjectId(id)
             : id
         )
       };
@@ -132,7 +162,9 @@ export const updateExerciseSets = async (req, res) => {
       });
     }
 
-    workout.exercises[exerciseIndex].sets = sets;
+    const incomingSets = normalizeSets(sets);
+    workout.exercises[exerciseIndex].sets = incomingSets;
+
     await workout.save();
     await workout.populate('exercises.exerciseId');
 
@@ -346,12 +378,12 @@ export const saveRoutine = async (req, res) => {
       // Convert exerciseId to ObjectId if it's a string
       const exerciseId = ex.exercise?._id || ex.exerciseId || ex._id;
       return {
-        exerciseId: mongoose.Types.ObjectId.isValid(exerciseId) 
-          ? new mongoose.Types.ObjectId(exerciseId) 
+        exerciseId: mongoose.Types.ObjectId.isValid(exerciseId)
+          ? new mongoose.Types.ObjectId(exerciseId)
           : exerciseId,
         order: index,
         notes: ex.notes || '',
-        sets: ex.sets || []
+        sets: normalizeSets(ex.sets || [])
       };
     });
 
@@ -359,9 +391,9 @@ export const saveRoutine = async (req, res) => {
     const supersetGroupsData = (supersetGroups || []).map(group => {
       const ids = Array.isArray(group) ? group : (group.exerciseIds || []);
       return {
-        exerciseIds: ids.map(id => 
-          mongoose.Types.ObjectId.isValid(id) 
-            ? new mongoose.Types.ObjectId(id) 
+        exerciseIds: ids.map(id =>
+          mongoose.Types.ObjectId.isValid(id)
+            ? new mongoose.Types.ObjectId(id)
             : id
         )
       };
@@ -464,12 +496,12 @@ export const updateRoutine = async (req, res) => {
       // Convert exerciseId to ObjectId if it's a string
       const exerciseId = ex.exercise?._id || ex.exerciseId || ex._id;
       return {
-        exerciseId: mongoose.Types.ObjectId.isValid(exerciseId) 
-          ? new mongoose.Types.ObjectId(exerciseId) 
+        exerciseId: mongoose.Types.ObjectId.isValid(exerciseId)
+          ? new mongoose.Types.ObjectId(exerciseId)
           : exerciseId,
         order: index,
         notes: ex.notes || '',
-        sets: ex.sets || []
+        sets: normalizeSets(ex.sets || [])
       };
     });
 
@@ -477,9 +509,9 @@ export const updateRoutine = async (req, res) => {
     const supersetGroupsData = (supersetGroups || []).map(group => {
       const ids = Array.isArray(group) ? group : (group.exerciseIds || []);
       return {
-        exerciseIds: ids.map(id => 
-          mongoose.Types.ObjectId.isValid(id) 
-            ? new mongoose.Types.ObjectId(id) 
+        exerciseIds: ids.map(id =>
+          mongoose.Types.ObjectId.isValid(id)
+            ? new mongoose.Types.ObjectId(id)
             : id
         )
       };
