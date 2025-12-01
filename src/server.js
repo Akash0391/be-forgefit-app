@@ -7,7 +7,7 @@ import cors from "cors";
 import morgan from "morgan";
 import session from "express-session";
 import passport from "passport";
-
+import MongoStore from "connect-mongo";
 import { configurePassport } from "./config/passport.js";
 import connectDB from "./config/db.js";
 import routes from "./routes/index.js";
@@ -32,23 +32,25 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: true }));
 
-// Session configuration
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "your-secret-key-change-in-production",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days - persistent login
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    },
-  })
-);
+// Session store backed by MongoDB (use redis if preferred)
+app.use(session({
+  secret: process.env.SESSION_SECRET || "change_this_in_prod",
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI, 
+    collectionName: "sessions",
+    // optionally add ttl, autoRemove options
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 14, // 14 days
+    httpOnly: true,
+    // secure: true in production (only over HTTPS)
+  }
+}));
 
-// Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
