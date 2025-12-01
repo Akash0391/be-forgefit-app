@@ -17,8 +17,8 @@ const exerciseSchema = new mongoose.Schema({
   }],
   equipment: {
     type: String,
-    enum: ['barbell', 'dumbbell', 'machine', 'cable', 'bodyweight', 'kettlebell', 'other'],
-    default: 'bodyweight'
+    enum: ['barbell', 'dumbbell', 'machine', 'plate', 'rband', 'sband', 'kettlebell', 'other'],
+    default: 'barbell'
   },
   videoUrl: {
     type: String,
