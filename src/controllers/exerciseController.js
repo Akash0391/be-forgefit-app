@@ -1,7 +1,71 @@
 // controllers/exerciseController.js
 import Exercise from '../models/Exercise.js';
 
+// --- helpers -------------------------------------------------
+
+const EQUIPMENT_MAP = {
+  barbell: 'barbell',
+  Barbell: 'barbell',
+
+  dumbbell: 'dumbbell',
+  Dumbbell: 'dumbbell',
+  Dumbell: 'dumbbell', // typo-safe
+
+  machine: 'machine',
+  Machine: 'machine',
+
+  plate: 'plate',
+  Plate: 'plate',
+
+  rband: 'rband',
+  'Resistance Band': 'rband',
+
+  sband: 'sband',
+  'Suspension Band': 'sband',
+
+  kettlebell: 'kettlebell',
+  Kettlebell: 'kettlebell',
+
+  other: 'other',
+  Other: 'other'
+};
+
+const MUSCLE_MAP = {
+  chest: 'chest',
+  Chest: 'chest',
+
+  back: 'back',
+  Back: 'back',
+
+  shoulders: 'shoulders',
+  Shoulders: 'shoulders',
+
+  arms: 'arms',
+  Arms: 'arms',
+
+  legs: 'legs',
+  Legs: 'legs',
+
+  core: 'core',
+  Core: 'core',
+
+  cardio: 'cardio',
+  Cardio: 'cardio'
+};
+
+function normalizeEquipment(value) {
+  if (!value) return undefined;
+  return EQUIPMENT_MAP[value] || value; // fallback: let Mongoose validate
+}
+
+function normalizeMuscle(value) {
+  if (!value) return undefined;
+  return MUSCLE_MAP[value] || value;
+}
+
+// ------------------------------------------------------------------
 // Get all exercises with optional filtering
+// ------------------------------------------------------------------
 export const getExercises = async (req, res) => {
   try {
     const {
@@ -12,7 +76,8 @@ export const getExercises = async (req, res) => {
       limit = 50,
       page = 1,
       sortBy = 'name',
-      sortDir = 'asc'
+      sortDir = 'asc',
+      isCustom       // optional filter from frontend
     } = req.query;
 
     const pageNum = Math.max(1, parseInt(page, 10) || 1);
@@ -21,7 +86,14 @@ export const getExercises = async (req, res) => {
 
     const query = {};
 
-    // SEARCH: prefer text for longer queries, fallback to regex for short ones
+    // optional filter: custom / non-custom
+    if (typeof isCustom !== 'undefined') {
+      // accept "true"/"false" or boolean
+      const flag = String(isCustom).toLowerCase() === 'true';
+      query.isCustom = flag;
+    }
+
+    // SEARCH
     if (search && String(search).trim().length > 0) {
       const q = String(search).trim();
       if (q.length > 2) {
@@ -34,21 +106,28 @@ export const getExercises = async (req, res) => {
       }
     }
 
-    // MUSCLE: support `muscle` or `muscleGroup`, single or comma-separated values
+    // MUSCLE
     const finalMuscle = (muscle || muscleGroup);
     if (finalMuscle && String(finalMuscle).trim().length > 0 && finalMuscle !== 'all') {
-      const muscles = String(finalMuscle).split(',').map(m => m.trim()).filter(Boolean);
+      const muscles = String(finalMuscle)
+        .split(',')
+        .map(m => normalizeMuscle(m.trim()))
+        .filter(Boolean);
+
       if (muscles.length === 1) {
-        // muscleGroups is an array in schema — this matches any doc that contains the value
         query.muscleGroups = muscles[0];
       } else if (muscles.length > 1) {
         query.muscleGroups = { $in: muscles };
       }
     }
 
-    // EQUIPMENT: support single or comma-separated equipment values
+    // EQUIPMENT
     if (equipment && String(equipment).trim().length > 0 && equipment !== 'all') {
-      const equips = String(equipment).split(',').map(e => e.trim()).filter(Boolean);
+      const equips = String(equipment)
+        .split(',')
+        .map(e => normalizeEquipment(e.trim()))
+        .filter(Boolean);
+
       if (equips.length === 1) {
         query.equipment = equips[0];
       } else if (equips.length > 1) {
@@ -87,8 +166,39 @@ export const getExercises = async (req, res) => {
   }
 };
 
+// ------------------------------------------------------------------
+// Get only custom exercises for the logged-in user
+// ------------------------------------------------------------------
+export const getCustomExercises = async (req, res) => {
+  try {
+    const userId = req.user?.id;
 
+    const query = { isCustom: true };
+    if (userId) {
+      query.createdBy = userId;
+    }
+
+    const exercises = await Exercise.find(query)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    res.json({
+      success: true,
+      data: exercises
+    });
+  } catch (error) {
+    console.error('getCustomExercises error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching custom exercises',
+      error: error.message
+    });
+  }
+};
+
+// ------------------------------------------------------------------
 // Get single exercise by ID
+// ------------------------------------------------------------------
 export const getExerciseById = async (req, res) => {
   try {
     const exercise = await Exercise.findById(req.params.id);
@@ -113,11 +223,64 @@ export const getExerciseById = async (req, res) => {
   }
 };
 
+// ------------------------------------------------------------------
 // Create new exercise (for custom exercises)
+// ------------------------------------------------------------------
 export const createExercise = async (req, res) => {
   try {
+    const {
+      name,
+      description,
+      primaryMuscle,
+      otherMuscles,   // array or comma-separated string
+      equipment,
+      videoUrl,
+      gifUrl,
+      thumbnailUrl,
+      instructions,
+      difficulty
+    } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Exercise name is required'
+      });
+    }
+
+    // normalise equipment
+    const normalizedEquipment = normalizeEquipment(equipment);
+
+    // build muscleGroups from primary + others
+    const muscleGroupsSet = new Set();
+
+    if (primaryMuscle) {
+      const m = normalizeMuscle(primaryMuscle);
+      if (m) muscleGroupsSet.add(m);
+    }
+
+    if (otherMuscles) {
+      const arr = Array.isArray(otherMuscles)
+        ? otherMuscles
+        : String(otherMuscles).split(',');
+      arr
+        .map(m => normalizeMuscle(String(m).trim()))
+        .filter(Boolean)
+        .forEach(m => muscleGroupsSet.add(m));
+    }
+
+    const muscleGroups = Array.from(muscleGroupsSet);
+
     const exercise = new Exercise({
-      ...req.body,
+      name: name.trim(),
+      description: description || '',
+      muscleGroups,                         // drives your filters
+      equipment: normalizedEquipment || 'other',
+      videoUrl: videoUrl || '',
+      gifUrl: gifUrl || '',
+      thumbnailUrl: thumbnailUrl || '',
+      instructions: Array.isArray(instructions) ? instructions : [],
+      difficulty: difficulty || 'beginner',
       isCustom: true,
       createdBy: req.user?.id || null
     });
@@ -129,6 +292,7 @@ export const createExercise = async (req, res) => {
       data: exercise
     });
   } catch (error) {
+    console.error('createExercise error:', error);
     res.status(400).json({
       success: false,
       message: 'Error creating exercise',
@@ -137,7 +301,9 @@ export const createExercise = async (req, res) => {
   }
 };
 
+// ------------------------------------------------------------------
 // Update exercise
+// ------------------------------------------------------------------
 export const updateExercise = async (req, res) => {
   try {
     const exercise = await Exercise.findByIdAndUpdate(
@@ -166,7 +332,9 @@ export const updateExercise = async (req, res) => {
   }
 };
 
+// ------------------------------------------------------------------
 // Delete exercise (only custom exercises)
+// ------------------------------------------------------------------
 export const deleteExercise = async (req, res) => {
   try {
     const exercise = await Exercise.findById(req.params.id);
@@ -200,4 +368,3 @@ export const deleteExercise = async (req, res) => {
     });
   }
 };
-
