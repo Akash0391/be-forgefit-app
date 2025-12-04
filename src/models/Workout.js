@@ -33,6 +33,12 @@ const workoutSchema = new mongoose.Schema({
       type: String,
       default: ''
     },
+
+    // 👇 NEW: rest timer for this exercise in seconds
+    restTimerSeconds: {
+      type: Number,
+      default: 0
+    },
     sets: [{
       setNumber: {
         type: Number,

@@ -383,7 +383,8 @@ export const saveRoutine = async (req, res) => {
           : exerciseId,
         order: index,
         notes: ex.notes || '',
-        sets: normalizeSets(ex.sets || [])
+        sets: normalizeSets(ex.sets || []),
+        restTimerSeconds: ex.restTimerSeconds ?? 0,
       };
     });
 
@@ -501,7 +502,8 @@ export const updateRoutine = async (req, res) => {
           : exerciseId,
         order: index,
         notes: ex.notes || '',
-        sets: normalizeSets(ex.sets || [])
+        sets: normalizeSets(ex.sets || []),
+        restTimerSeconds: ex.restTimerSeconds ?? 0,
       };
     });
 
