@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import Workout from '../models/Workout.js';
+import RoutineFolder from '../models/RoutineFolder.js';
+
 
 
 // helper: normalizeSets - respects absence of min/max and doesn't overwrite unintentionally
@@ -541,3 +543,53 @@ export const updateRoutine = async (req, res) => {
   }
 };
 
+// Get all routine folders for user
+export const getRoutineFolders = async (req, res) => {
+  try {
+    const folders = await RoutineFolder.find({ userId: req.user.id })
+      .sort({ createdAt: 1 });
+
+    res.json({
+      success: true,
+      data: folders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching routine folders',
+      error: error.message,
+    });
+  }
+};
+
+// Create new routine folder
+export const createRoutineFolder = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Folder name is required',
+      });
+    }
+
+    const folder = new RoutineFolder({
+      userId: req.user.id,
+      name: name.trim(),
+    });
+
+    await folder.save();
+
+    res.json({
+      success: true,
+      data: folder,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: 'Error creating folder',
+      error: error.message,
+    });
+  }
+};
