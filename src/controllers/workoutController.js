@@ -547,8 +547,7 @@ export const updateRoutine = async (req, res) => {
 export const getRoutineFolders = async (req, res) => {
   try {
     const folders = await RoutineFolder.find({ userId: req.user.id })
-      .sort({ createdAt: 1 });
-
+      .sort({ order:1, createdAt: 1 });
     res.json({
       success: true,
       data: folders,
@@ -593,3 +592,47 @@ export const createRoutineFolder = async (req, res) => {
     });
   }
 };
+
+// Reorder routine folders
+export const reorderRoutineFolders = async (req, res) => {
+  try {
+    const { folders } = req.body; // ✅ plain JS, no "as { ... }"
+
+    if (!Array.isArray(folders)) {
+      return res.status(400).json({
+        success: false,
+        message: 'folders must be an array',
+      });
+    }
+
+    // bulk update all folder orders
+    const bulkOps = folders.map((f) => ({
+      updateOne: {
+        filter: { _id: f.folderId, userId: req.user.id }, // ensure user-specific
+        update: { $set: { order: f.order } },
+      },
+    }));
+
+    if (bulkOps.length > 0) {
+      await RoutineFolder.bulkWrite(bulkOps);
+    }
+
+    // return updated list sorted by order
+    const updatedFolders = await RoutineFolder.find({
+      userId: req.user.id,
+    }).sort({ order: 1, createdAt: 1 });
+
+    return res.json({
+      success: true,
+      data: updatedFolders,
+    });
+  } catch (error) {
+    console.error('Error reordering folders:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to reorder folders',
+      error: error.message,
+    });
+  }
+};
+
