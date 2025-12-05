@@ -677,3 +677,45 @@ export const deleteRoutineFolder = async (req, res) => {
     });
   }
 };
+
+// Rename routine folder
+export const renameRoutineFolder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Folder name is required',
+      });
+    }
+
+    const trimmed = name.trim();
+
+    const folder = await RoutineFolder.findOneAndUpdate(
+      { _id: id, userId: req.user.id }, // same filter style as getRoutineFolders
+      { $set: { name: trimmed } },
+      { new: true }
+    );
+
+    if (!folder) {
+      return res.status(404).json({
+        success: false,
+        message: 'Folder not found',
+      });
+    }
+
+    return res.json({
+      success: true,
+      data: folder,
+    });
+  } catch (error) {
+    console.error('Error renaming folder:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error renaming folder',
+      error: error.message,
+    });
+  }
+};
