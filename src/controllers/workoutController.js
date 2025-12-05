@@ -636,3 +636,44 @@ export const reorderRoutineFolders = async (req, res) => {
   }
 };
 
+// DELETE /api/workout/routine-folders/:id
+// DELETE /api/workouts/folders/:id
+export const deleteRoutineFolder = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Optional: validate ObjectId early
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid folder id',
+      });
+    }
+
+    // 🔴 IMPORTANT: match getRoutineFolders filter (userId + _id)
+    const folder = await RoutineFolder.findOneAndDelete({
+      _id: id,
+      userId: req.user.id,
+    });
+
+    if (!folder) {
+      return res.status(404).json({
+        success: false,
+        message: 'Folder not found',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Folder deleted successfully',
+      data: folder,
+    });
+  } catch (error) {
+    console.error('Error deleting routine folder:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to delete folder',
+      error: error.message,
+    });
+  }
+};

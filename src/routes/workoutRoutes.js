@@ -13,7 +13,8 @@ import {
   updateRoutine,
   getRoutineFolders,
   createRoutineFolder,
-  reorderRoutineFolders
+  reorderRoutineFolders,
+  deleteRoutineFolder
 } from '../controllers/workoutController.js';
 import { isAuthenticated } from '../middleware/authMiddleware.js';
 
@@ -36,6 +37,7 @@ router.delete('/:workoutId', deleteWorkout);
 router.get('/folders', getRoutineFolders);
 router.post('/folders', createRoutineFolder);
 router.put('/folders/reorder', reorderRoutineFolders);
+router.delete('/folders/:id', deleteRoutineFolder);
 
 export default router;
 
