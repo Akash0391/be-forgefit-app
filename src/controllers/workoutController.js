@@ -65,6 +65,7 @@ export const getActiveWorkout = async (req, res) => {
 };
 
 // Create or update active workout
+// Create or update active workout
 export const saveWorkout = async (req, res) => {
   try {
     const { exercises, supersetGroups, duration, startTime } = req.body;
@@ -76,16 +77,20 @@ export const saveWorkout = async (req, res) => {
     });
 
     // Prepare exercises with order
-    const exercisesData = exercises.map((ex, index) => {
+    const exercisesData = (exercises || []).map((ex, index) => {
       // Convert exerciseId to ObjectId if it's a string
       const exerciseId = ex._id || ex.exerciseId;
+
       return {
         exerciseId: mongoose.Types.ObjectId.isValid(exerciseId)
           ? new mongoose.Types.ObjectId(exerciseId)
           : exerciseId,
         order: index,
         notes: ex.notes || '',
-        sets: normalizeSets(ex.sets || [])
+        sets: normalizeSets(ex.sets || []),
+
+        // ✅ IMPORTANT: keep per-exercise rest timer
+        restTimerSeconds: ex.restTimerSeconds ?? 0,
       };
     });
 
@@ -135,6 +140,7 @@ export const saveWorkout = async (req, res) => {
     });
   }
 };
+
 
 // Update exercise sets
 export const updateExerciseSets = async (req, res) => {
@@ -547,7 +553,7 @@ export const updateRoutine = async (req, res) => {
 export const getRoutineFolders = async (req, res) => {
   try {
     const folders = await RoutineFolder.find({ userId: req.user.id })
-      .sort({ order:1, createdAt: 1 });
+      .sort({ order: 1, createdAt: 1 });
     res.json({
       success: true,
       data: folders,
