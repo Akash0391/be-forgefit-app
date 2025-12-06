@@ -365,7 +365,7 @@ export const deleteWorkout = async (req, res) => {
 // Save routine
 export const saveRoutine = async (req, res) => {
   try {
-    const { name, exercises, supersetGroups } = req.body;
+    const { name, exercises, supersetGroups, routineFolderId } = req.body;
 
     if (!name || !name.trim()) {
       return res.status(400).json({
@@ -416,7 +416,8 @@ export const saveRoutine = async (req, res) => {
       supersetGroups: supersetGroupsData,
       duration: 0,
       status: 'completed', // Routines are saved as completed workouts
-      isRoutine: true
+      isRoutine: true,
+      routineFolderId: routineFolderId || null,
     });
 
     await routine.save();
@@ -463,7 +464,7 @@ export const getRoutines = async (req, res) => {
 // Update routine
 export const updateRoutine = async (req, res) => {
   try {
-    const { routineId, name, exercises, supersetGroups } = req.body;
+    const { routineId, name, exercises, supersetGroups, routineFolderId } = req.body;
 
     if (!routineId) {
       return res.status(400).json({
@@ -485,6 +486,10 @@ export const updateRoutine = async (req, res) => {
         message: 'At least one exercise is required'
       });
     }
+
+    if (routineFolderId !== undefined) {
+  routine.routineFolderId = routineFolderId || null;
+}
 
     // Find the routine
     const routine = await Workout.findOne({

@@ -88,7 +88,12 @@ const workoutSchema = new mongoose.Schema({
   isRoutine: {
     type: Boolean,
     default: false
-  }
+  },
+  routineFolderId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'RoutineFolder',
+    default: null,
+  },
 }, {
   timestamps: true
 });
