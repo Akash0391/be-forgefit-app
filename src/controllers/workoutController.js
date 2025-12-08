@@ -251,7 +251,8 @@ export const discardWorkout = async (req, res) => {
 // Update completed workout details (name, description, visibility)
 export const updateWorkoutDetails = async (req, res) => {
   try {
-    const { workoutId, name, description, visibility } = req.body;
+    const { workoutId, name, description, visibility, exercises,
+      supersetGroups, } = req.body;
 
     if (!workoutId) {
       return res.status(400).json({
@@ -276,6 +277,49 @@ export const updateWorkoutDetails = async (req, res) => {
     if (name !== undefined) workout.name = name;
     if (description !== undefined) workout.description = description;
     if (visibility !== undefined) workout.visibility = visibility;
+
+    // ---- exercises (sets, notes, restTimerSeconds, order) ----
+    if (Array.isArray(exercises)) {
+      workout.exercises = exercises.map((ex, index) => {
+        // exerciseId can be object, string, or nested under exercise
+        const rawId =
+          (ex.exerciseId && typeof ex.exerciseId === "object"
+            ? ex.exerciseId._id
+            : ex.exerciseId) ||
+          (ex.exercise && ex.exercise._id) ||
+          ex._id;
+
+        const exerciseId = mongoose.Types.ObjectId.isValid(rawId)
+          ? new mongoose.Types.ObjectId(rawId)
+          : rawId;
+
+        return {
+          exerciseId,
+          order: ex.order ?? index,
+          notes: ex.notes || "",
+          sets: normalizeSets(ex.sets || []),
+          restTimerSeconds: ex.restTimerSeconds ?? 0,
+        };
+      });
+    }
+
+    // ---- superset groups ----
+    if (Array.isArray(supersetGroups)) {
+      // frontend sends string[][], but also support [{ exerciseIds: [...] }]
+      workout.supersetGroups = supersetGroups.map((group) => {
+        const ids = Array.isArray(group)
+          ? group
+          : group.exerciseIds || [];
+
+        return {
+          exerciseIds: ids.map((id) =>
+            mongoose.Types.ObjectId.isValid(id)
+              ? new mongoose.Types.ObjectId(id)
+              : id
+          ),
+        };
+      });
+    }
 
     await workout.save();
     await workout.populate('exercises.exerciseId');
