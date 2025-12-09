@@ -14,6 +14,17 @@ const userSchema = new mongoose.Schema({
   firstName: { type: String },
   lastName: { type: String },
   avatar: { type: String },
+
+  // ✅ NEW FIELDS
+    sex: {
+      type: String,
+      enum: ["male", "female", "other"],
+      default: null,
+    },
+    birthday: {
+      type: Date,
+      default: null,
+    },
   // provider-specific data (google, github, etc.)
   providers: {
     google: { type: providerSchema, default: null },
