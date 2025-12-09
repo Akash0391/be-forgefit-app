@@ -92,12 +92,11 @@ export const updateProfile = async (req, res) => {
       });
     }
 
-    const { name, avatar, bio, link, sex, birthday } = req.body;
+    const { name, bio, link, sex, birthday } = req.body;
 
     const update = {};
 
     if (typeof name === "string") update.name = name;
-    if (typeof avatar === "string" || avatar === null) update.avatar = avatar;
     if (typeof bio === "string") update.bio = bio;
     if (typeof link === "string") update.link = link;
 
@@ -118,6 +117,25 @@ export const updateProfile = async (req, res) => {
       }
     }
 
+    if (Object.keys(update).length === 0) {
+      return res.json({
+        success: true,
+        data: {
+          id: req.user.id,
+          email: req.user.email,
+          name: req.user.name,
+          firstName: req.user.firstName,
+          lastName: req.user.lastName,
+          avatar: req.user.avatar,             // kept from Google
+          sex: req.user.sex ?? null,
+          birthday: req.user.birthday ?? null,
+          bio: req.user.bio ?? "",
+          link: req.user.link ?? "",
+        },
+      });
+    }
+
+    
     const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
       { $set: update },
