@@ -1,4 +1,5 @@
 import passport from "passport";
+import User from "../models/User.js";
 
 // Initiate Google OAuth
 export const initiateGoogleAuth = (req, res, next) => {
@@ -68,6 +69,10 @@ export const getCurrentUser = (req, res) => {
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         avatar: req.user.avatar,
+        sex: req.user.sex || null,
+        birthday: req.user.birthday || null,
+        bio: req.user.bio || "",
+        link: req.user.link || "",
       },
     });
   } else {
@@ -77,6 +82,80 @@ export const getCurrentUser = (req, res) => {
     });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Not authenticated",
+      });
+    }
+
+    const { name, avatar, bio, link, sex, birthday } = req.body;
+
+    const update = {};
+
+    if (typeof name === "string") update.name = name;
+    if (typeof avatar === "string" || avatar === null) update.avatar = avatar;
+    if (typeof bio === "string") update.bio = bio;
+    if (typeof link === "string") update.link = link;
+
+    // sex: allow null, but enforce enum
+    if (sex === null || sex === "" || sex === undefined) {
+      update.sex = null;
+    } else if (["male", "female", "other"].includes(sex)) {
+      update.sex = sex;
+    }
+
+    // birthday: expect ISO string from frontend
+    if (birthday === null) {
+      update.birthday = null;
+    } else if (typeof birthday === "string") {
+      const d = new Date(birthday);
+      if (!Number.isNaN(d.getTime())) {
+        update.birthday = d;
+      }
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: update },
+      { new: true }
+    ).lean();
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // shape the response similar to /me, but under `data` (what authApi expects)
+    res.json({
+      success: true,
+      data: {
+        id: updatedUser._id,
+        email: updatedUser.email,
+        name: updatedUser.name,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        avatar: updatedUser.avatar,
+        sex: updatedUser.sex || null,
+        birthday: updatedUser.birthday || null,
+        bio: updatedUser.bio || "",
+        link: updatedUser.link || "",
+      },
+    });
+  } catch (err) {
+    console.error("Error updating profile:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update profile",
+    });
+  }
+};
+
 
 // Logout user
 export const logout = (req, res) => {

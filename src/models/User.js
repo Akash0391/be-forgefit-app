@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema({
       type: Date,
       default: null,
     },
+    bio: {
+      type: String,
+      default: "",
+    },
+    link: {
+      type: String,
+      default: "",
+    },
   // provider-specific data (google, github, etc.)
   providers: {
     google: { type: providerSchema, default: null },
