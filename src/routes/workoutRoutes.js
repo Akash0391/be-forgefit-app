@@ -15,7 +15,9 @@ import {
   createRoutineFolder,
   reorderRoutineFolders,
   deleteRoutineFolder,
-  renameRoutineFolder
+  renameRoutineFolder,
+  getWorkoutSummary,
+  getLastExerciseSets,
 } from '../controllers/workoutController.js';
 import { isAuthenticated } from '../middleware/authMiddleware.js';
 
@@ -31,6 +33,8 @@ router.post('/finish', finishWorkout);
 router.post('/discard', discardWorkout);
 router.put('/details', updateWorkoutDetails);
 router.get('/history', getWorkoutHistory);
+router.get('/summary', getWorkoutSummary);
+router.get('/last-sets/:exerciseId', getLastExerciseSets);
 router.post('/routines', saveRoutine);
 router.get('/routines', getRoutines);
 router.put('/routines', updateRoutine);

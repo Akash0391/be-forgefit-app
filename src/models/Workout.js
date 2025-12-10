@@ -74,6 +74,16 @@ const workoutSchema = new mongoose.Schema({
     type: Number, // Duration in seconds
     default: 0
   },
+  // total volume: sum of (kg * reps) of all completed sets
+  totalVolumeKg: {
+    type: Number,
+    default: 0,
+  },
+  // total reps in this workout
+  totalReps: {
+    type: Number,
+    default: 0,
+  },
   startTime: {
     type: Date
   },
@@ -102,6 +112,7 @@ const workoutSchema = new mongoose.Schema({
 workoutSchema.index({ userId: 1, status: 1 });
 workoutSchema.index({ userId: 1, createdAt: -1 });
 workoutSchema.index({ userId: 1, isRoutine: 1 });
+workoutSchema.index({ userId: 1, status: 1, endTime: -1 });
 
 export default mongoose.model('Workout', workoutSchema);
 

@@ -33,6 +33,32 @@ const normalizeSets = (sets = []) => {
   });
 };
 
+// helper: recompute duration, totalVolumeKg, totalReps
+const recalculateWorkoutStats = (workout) => {
+  // duration
+  if (workout.startTime && workout.endTime) {
+    const diffMs = workout.endTime.getTime() - workout.startTime.getTime();
+    workout.duration = Math.max(0, Math.floor(diffMs / 1000)); // seconds
+  }
+
+  let totalVolumeKg = 0;
+  let totalReps = 0;
+
+  for (const ex of workout.exercises || []) {
+    for (const set of ex.sets || []) {
+      const kg = Number(set.kg) || 0;
+      const reps = Number(set.reps) || 0;
+      if (kg > 0 && reps > 0) {
+        totalVolumeKg += kg * reps;
+        totalReps += reps;
+      }
+    }
+  }
+
+  workout.totalVolumeKg = totalVolumeKg;
+  workout.totalReps = totalReps;
+};
+
 // Get active workout for user
 export const getActiveWorkout = async (req, res) => {
   try {
@@ -141,7 +167,6 @@ export const saveWorkout = async (req, res) => {
   }
 };
 
-
 // Update exercise sets
 export const updateExerciseSets = async (req, res) => {
   try {
@@ -206,6 +231,10 @@ export const finishWorkout = async (req, res) => {
 
     workout.status = 'completed';
     workout.endTime = new Date();
+
+    // ✅ compute duration + totalVolumeKg + totalReps
+    recalculateWorkoutStats(workout);
+
     await workout.save();
 
     res.json({
@@ -320,6 +349,9 @@ export const updateWorkoutDetails = async (req, res) => {
         };
       });
     }
+
+    // ✅ after changing exercises/sets, recompute stats
+    recalculateWorkoutStats(workout);
 
     await workout.save();
     await workout.populate('exercises.exerciseId');
@@ -774,3 +806,158 @@ export const renameRoutineFolder = async (req, res) => {
     });
   }
 };
+
+// GET /api/workouts/summary?range=3m
+export const getWorkoutSummary = async (req, res) => {
+  try {
+    const { range = '3m' } = req.query;
+
+    // simple range handling: 1w / 1m / 3m / 1y
+    const now = new Date();
+    const start = new Date(now);
+
+    if (range === '1w') start.setDate(start.getDate() - 7);
+    else if (range === '1m') start.setMonth(start.getMonth() - 1);
+    else if (range === '3m') start.setMonth(start.getMonth() - 3);
+    else if (range === '1y') start.setFullYear(start.getFullYear() - 1);
+    else start.setMonth(start.getMonth() - 3); // default 3m
+
+    const rows = await Workout.aggregate([
+      {
+        $match: {
+          userId: req.user.id,
+          status: 'completed',
+          endTime: { $gte: start }
+        }
+      },
+      {
+        $project: {
+          day: {
+            $dateToString: {
+              format: '%Y-%m-%d',
+              date: '$endTime'
+            }
+          },
+          duration: 1,
+          totalVolumeKg: 1,
+          totalReps: 1
+        }
+      },
+      {
+        $group: {
+          _id: '$day',
+          durationSeconds: { $sum: '$duration' },
+          totalVolumeKg: { $sum: '$totalVolumeKg' },
+          totalReps: { $sum: '$totalReps' }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    const data = rows.map(r => ({
+      date: r._id,                  // "2025-11-16"
+      durationSeconds: r.durationSeconds,
+      durationMinutes: Math.round(r.durationSeconds / 60),
+      totalVolumeKg: r.totalVolumeKg,
+      totalReps: r.totalReps
+    }));
+
+    // also return current-week total hours for "0 hours this week"
+    const weekStart = new Date(now);
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay()); // Sunday
+    weekStart.setHours(0, 0, 0, 0);
+
+    const weekAgg = await Workout.aggregate([
+      {
+        $match: {
+          userId: req.user.id,
+          status: 'completed',
+          endTime: { $gte: weekStart }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          durationSeconds: { $sum: '$duration' }
+        }
+      }
+    ]);
+
+    const weekSeconds = weekAgg[0]?.durationSeconds || 0;
+    const weekHours = Math.round(weekSeconds / 3600);
+
+    res.json({
+      success: true,
+      data,
+      thisWeekHours: weekHours
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching workout summary',
+      error: error.message
+    });
+  }
+};
+
+// GET /api/workouts/last-sets/:exerciseId
+export const getLastExerciseSets = async (req, res) => {
+  try {
+    const { exerciseId } = req.params;
+
+    if (!exerciseId) {
+      return res.status(400).json({
+        success: false,
+        message: "exerciseId is required",
+      });
+    }
+
+    // Cast once to ObjectId (safer than string match)
+    const exObjectId = new mongoose.Types.ObjectId(exerciseId);
+
+    // 🔹 Find most recent *real* completed workout (not routine) that used this exercise
+    const lastWorkout = await Workout.findOne({
+      userId: req.user.id,
+      status: "completed",
+      isRoutine: { $ne: true },            // exclude routines
+      "exercises.exerciseId": exObjectId,
+    })
+      .sort({ endTime: -1 })               // newest first
+      .lean();
+
+    if (!lastWorkout) {
+      return res.json({ success: true, data: [] });
+    }
+
+    const ex = lastWorkout.exercises.find((e) =>
+      exObjectId.equals(e.exerciseId)
+    );
+
+    if (!ex) {
+      return res.json({ success: true, data: [] });
+    }
+
+    const previousSets = (ex.sets || [])
+      .filter((s) => (s.kg || 0) > 0 && (s.reps || 0) > 0)
+      .map((s, idx) => ({
+        setNumber: s.setNumber ?? idx + 1,
+        kg: s.kg,
+        reps: s.reps,
+        // what will appear in PREVIOUS column
+        previous: `${s.kg}x${s.reps}`,
+      }));
+
+    return res.json({
+      success: true,
+      data: previousSets,
+    });
+  } catch (error) {
+    console.error("getLastExerciseSets error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching last sets",
+      error: error.message,
+    });
+  }
+};
+
