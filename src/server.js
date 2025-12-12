@@ -59,6 +59,16 @@ app.get("/", (req, res) => {
   res.send("✅ Node.js Backend is Running!");
 });
 
+app.get("/api/health", async (req, res) => {
+  const dbStatus = await mongoose.connection.readyState; // example for MongoDB
+
+  res.status(200).json({
+    status: "ok",
+    server: true,
+    database: dbStatus === 1 ? "connected" : "disconnected",
+  });
+});
+
 // Routes
 app.use("/api", routes);
 app.use("/api/auth", authRoutes);
