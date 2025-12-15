@@ -14,6 +14,7 @@ import routes from "./routes/index.js";
 import authRoutes from "./routes/authRoutes.js";
 import exerciseRoutes from "./routes/exerciseRoutes.js";
 import workoutRoutes from "./routes/workoutRoutes.js";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -60,7 +61,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/health", async (req, res) => {
-  const dbStatus = await mongoose.connection.readyState; // example for MongoDB
+  const dbStatus = mongoose.connection.readyState; // example for MongoDB
 
   res.status(200).json({
     status: "ok",
