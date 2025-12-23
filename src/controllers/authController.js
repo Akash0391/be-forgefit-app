@@ -1,5 +1,7 @@
 import passport from "passport";
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
+
 
 // Initiate Google OAuth
 export const initiateGoogleAuth = (req, res, next) => {
@@ -174,6 +176,43 @@ export const updateProfile = async (req, res) => {
   }
 };
 
+
+export const updatePassword = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: "Not authenticated",
+      });
+    }
+
+    const { password } = req.body;
+
+    if (!password || password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await User.findByIdAndUpdate(req.user.id, {
+      password: hashedPassword,
+    });
+
+    res.json({
+      success: true,
+      message: "Password updated successfully",
+    });
+  } catch (err) {
+    console.error("Update password error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update password",
+    });
+  }
+};
 
 // Logout user
 export const logout = (req, res) => {

@@ -4,7 +4,8 @@ import {
   handleGoogleCallback,
   getCurrentUser,
   logout,
-  updateProfile
+  updateProfile,
+  updatePassword
 } from "../controllers/authController.js";
 import { isAuthenticated } from "../middleware/authMiddleware.js";
 
@@ -24,6 +25,9 @@ router.post("/logout", logout);
 
 // Update user profile
 router.put("/profile", isAuthenticated, updateProfile);
+
+// Update user password
+router.put("/password", isAuthenticated, updatePassword);
 
 export default router;
 

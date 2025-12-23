@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String },
   firstName: { type: String },
   lastName: { type: String },
+  password: { type: String, select: false },
   avatar: { type: String },
 
   // ✅ NEW FIELDS
