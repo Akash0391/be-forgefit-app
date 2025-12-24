@@ -14,6 +14,7 @@ import routes from "./routes/index.js";
 import authRoutes from "./routes/authRoutes.js";
 import exerciseRoutes from "./routes/exerciseRoutes.js";
 import workoutRoutes from "./routes/workoutRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 import mongoose from "mongoose";
 
 const app = express();
@@ -75,6 +76,7 @@ app.use("/api", routes);
 app.use("/api/auth", authRoutes);
 app.use("/api/exercises", exerciseRoutes);
 app.use("/api/workouts", workoutRoutes);
+app.use("/api/uploads", uploadRoutes);
 
 // 404 handler - must be after all routes
 app.use((req, res) => {

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import Workout from '../models/Workout.js';
 import RoutineFolder from '../models/RoutineFolder.js';
+import cloudinary from "../config/cloudinary.js";
 
 
 
@@ -281,7 +282,7 @@ export const discardWorkout = async (req, res) => {
 export const updateWorkoutDetails = async (req, res) => {
   try {
     const { workoutId, name, description, visibility, exercises,
-      supersetGroups, } = req.body;
+      supersetGroups, media, } = req.body;
 
     if (!workoutId) {
       return res.status(400).json({
@@ -306,6 +307,11 @@ export const updateWorkoutDetails = async (req, res) => {
     if (name !== undefined) workout.name = name;
     if (description !== undefined) workout.description = description;
     if (visibility !== undefined) workout.visibility = visibility;
+
+    // ✅ OPTIONAL MEDIA
+    if (Array.isArray(media)) {
+      workout.media = media;
+    }
 
     // ---- exercises (sets, notes, restTimerSeconds, order) ----
     if (Array.isArray(exercises)) {

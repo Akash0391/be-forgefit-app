@@ -104,6 +104,11 @@ const workoutSchema = new mongoose.Schema({
     ref: 'RoutineFolder',
     default: null,
   },
+  media: {
+    type: [String],
+    default: [],
+  }
+
 }, {
   timestamps: true
 });
