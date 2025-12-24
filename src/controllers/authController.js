@@ -1,6 +1,7 @@
 import passport from "passport";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import cloudinary from "../config/cloudinary.js";
 
 
 // Initiate Google OAuth
@@ -94,7 +95,7 @@ export const updateProfile = async (req, res) => {
       });
     }
 
-    const { name, bio, link, sex, birthday } = req.body;
+    const { name, bio, link, sex, birthday, avatarDeleted } = req.body;
 
     const update = {};
 
@@ -117,6 +118,30 @@ export const updateProfile = async (req, res) => {
       if (!Number.isNaN(d.getTime())) {
         update.birthday = d;
       }
+    }
+
+    // -----------------------------
+    // 🧹 AVATAR DELETE
+    // -----------------------------
+    if (avatarDeleted === "true") {
+      update.avatar = null;
+    }
+
+    // -----------------------------
+    // 📤 AVATAR UPLOAD (Cloudinary)
+    // -----------------------------
+    if (req.file) {
+      const uploadResult = await cloudinary.uploader.upload(
+        `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
+        {
+          folder: "avatars",
+          public_id: `user_${req.user.id}`, // overwrite same image
+          overwrite: true,
+          resource_type: "image",
+        }
+      );
+
+      update.avatar = uploadResult.secure_url;
     }
 
     if (Object.keys(update).length === 0) {

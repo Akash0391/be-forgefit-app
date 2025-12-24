@@ -8,6 +8,8 @@ import {
   updatePassword
 } from "../controllers/authController.js";
 import { isAuthenticated } from "../middleware/authMiddleware.js";
+import upload from "../middleware/upload.js";
+
 
 const router = express.Router();
 
@@ -24,7 +26,7 @@ router.get("/me", isAuthenticated, getCurrentUser);
 router.post("/logout", logout);
 
 // Update user profile
-router.put("/profile", isAuthenticated, updateProfile);
+router.put("/profile", isAuthenticated, upload.single("avatar"), updateProfile);
 
 // Update user password
 router.put("/password", isAuthenticated, updatePassword);
