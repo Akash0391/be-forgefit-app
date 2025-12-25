@@ -11,15 +11,23 @@ const exerciseSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
-  muscleGroups: [{
+  primaryMuscle: {
+    type: String,
+    enum: ['chest', 'back', 'shoulders', 'arms', 'legs', 'core', 'cardio'],
+    required: true
+  },
+
+  secondaryMuscles: [{
     type: String,
     enum: ['chest', 'back', 'shoulders', 'arms', 'legs', 'core', 'cardio']
   }],
+
   equipment: {
-    type: String,
-    enum: ['barbell', 'dumbbell', 'machine', 'plate', 'rband', 'sband', 'kettlebell', 'other'],
-    default: 'barbell'
-  },
+  type: String,
+  enum: ['barbell', 'dumbbell', 'machine', 'plate', 'rband', 'sband', 'kettlebell', 'bodyweight', 'cable', 'other'],
+  default: 'barbell'
+},
+
   videoUrl: {
     type: String,
     default: ''

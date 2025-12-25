@@ -106,7 +106,7 @@ export const getExercises = async (req, res) => {
       }
     }
 
-    // MUSCLE
+    // MUSCLE (PRIMARY ONLY)
     const finalMuscle = (muscle || muscleGroup);
     if (finalMuscle && String(finalMuscle).trim().length > 0 && finalMuscle !== 'all') {
       const muscles = String(finalMuscle)
@@ -115,11 +115,12 @@ export const getExercises = async (req, res) => {
         .filter(Boolean);
 
       if (muscles.length === 1) {
-        query.muscleGroups = muscles[0];
+        query.primaryMuscle = muscles[0];
       } else if (muscles.length > 1) {
-        query.muscleGroups = { $in: muscles };
+        query.primaryMuscle = { $in: muscles };
       }
     }
+
 
     // EQUIPMENT
     if (equipment && String(equipment).trim().length > 0 && equipment !== 'all') {
@@ -202,7 +203,7 @@ export const getCustomExercises = async (req, res) => {
 export const getExerciseById = async (req, res) => {
   try {
     const exercise = await Exercise.findById(req.params.id);
-    
+
     if (!exercise) {
       return res.status(404).json({
         success: false,
@@ -251,30 +252,31 @@ export const createExercise = async (req, res) => {
     // normalise equipment
     const normalizedEquipment = normalizeEquipment(equipment);
 
-    // build muscleGroups from primary + others
-    const muscleGroupsSet = new Set();
-
+    // PRIMARY MUSCLE
+    let primary = null;
     if (primaryMuscle) {
       const m = normalizeMuscle(primaryMuscle);
-      if (m) muscleGroupsSet.add(m);
+      if (m) primary = m;
     }
 
+    // SECONDARY MUSCLES
+    let secondary = [];
     if (otherMuscles) {
       const arr = Array.isArray(otherMuscles)
         ? otherMuscles
         : String(otherMuscles).split(',');
-      arr
+
+      secondary = arr
         .map(m => normalizeMuscle(String(m).trim()))
-        .filter(Boolean)
-        .forEach(m => muscleGroupsSet.add(m));
+        .filter(Boolean);
     }
 
-    const muscleGroups = Array.from(muscleGroupsSet);
 
     const exercise = new Exercise({
       name: name.trim(),
       description: description || '',
-      muscleGroups,                         // drives your filters
+      primaryMuscle: primary,
+      secondaryMuscles: secondary,
       equipment: normalizedEquipment || 'other',
       videoUrl: videoUrl || '',
       gifUrl: gifUrl || '',

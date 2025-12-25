@@ -17,14 +17,14 @@ const seedExercises = async () => {
   try {
     // Connect to MongoDB - ensure database name is included
     let mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/forgefit';
-    
+
     // Ensure database name is included for Atlas connections
     if (mongoURI.includes('mongodb+srv://') && !mongoURI.match(/\/[^\/]+\?/) && !mongoURI.endsWith('/')) {
       mongoURI = mongoURI + '/forgefit';
     } else if (mongoURI.includes('mongodb+srv://') && mongoURI.endsWith('/')) {
       mongoURI = mongoURI + 'forgefit';
     }
-    
+
     await mongoose.connect(mongoURI);
     console.log('✅ Connected to MongoDB');
     console.log(`📊 Database: ${mongoose.connection.name}`);
@@ -48,14 +48,25 @@ const seedExercises = async () => {
         invalidExercises.push(`Exercise at index ${index}: missing name`);
         return;
       }
-      if (!exercise.gifUrl) {
-        console.warn(`⚠️  Exercise "${exercise.name}" has no GIF URL`);
+
+      const primary = exercise.muscleGroups?.length ? exercise.muscleGroups[0] : null;
+      const secondary = exercise.muscleGroups?.length ? exercise.muscleGroups.slice(1) : [];
+
+      if (!primary) {
+        invalidExercises.push(`Exercise "${exercise.name}" has no primary muscle`);
+        return;
       }
+
       validExercises.push({
         ...exercise,
+        primaryMuscle: primary,
+        secondaryMuscles: secondary,
         isCustom: false
       });
+
+      delete exercise.muscleGroups;
     });
+
 
     if (invalidExercises.length > 0) {
       console.error('❌ Invalid exercises found:');
@@ -80,11 +91,12 @@ const seedExercises = async () => {
     // List exercises by muscle group
     const byMuscleGroup = {};
     result.forEach(ex => {
-      ex.muscleGroups.forEach(mg => {
-        if (!byMuscleGroup[mg]) byMuscleGroup[mg] = [];
-        byMuscleGroup[mg].push(ex.name);
-      });
+      if (ex.primaryMuscle) {
+        if (!byMuscleGroup[ex.primaryMuscle]) byMuscleGroup[ex.primaryMuscle] = [];
+        byMuscleGroup[ex.primaryMuscle].push(ex.name);
+      }
     });
+
 
     console.log('\n📋 Exercises by muscle group:');
     Object.entries(byMuscleGroup).forEach(([group, exercises]) => {
