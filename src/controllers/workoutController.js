@@ -62,6 +62,20 @@ const recalculateWorkoutStats = (workout) => {
 
 export const startWorkout = async (req, res) => {
   try {
+
+    const existing = await Workout.findOne({
+      userId: req.user._id,
+      status: "in-progress"
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        success: false,
+        message: "You already have an active workout",
+        workoutId: existing._id
+      });
+    }
+
     const { routineId, exercises, supersetGroups = [] } = req.body;
 
     const workout = await Workout.create({
@@ -96,7 +110,7 @@ export const getActiveWorkout = async (req, res) => {
     const workout = await Workout.findOne({
       userId: req.user.id,
       status: 'in-progress',
-      isRoutine: { $ne: true } 
+      isRoutine: { $ne: true }
     })
       .populate('exercises.exerciseId')
       .populate('supersetGroups.exerciseIds')
@@ -249,6 +263,7 @@ export const updateExerciseSets = async (req, res) => {
 // Finish workout
 export const finishWorkout = async (req, res) => {
   try {
+    const userId = req.user._id;
     const workout = await Workout.findOne({
       userId: req.user.id,
       status: 'in-progress'
@@ -266,6 +281,11 @@ export const finishWorkout = async (req, res) => {
 
     // ✅ compute duration + totalVolumeKg + totalReps
     recalculateWorkoutStats(workout);
+
+    // 🔥 Emit to socket room
+    req.io.to(workout._id.toString()).emit("workout:completed", {
+      workoutId: workout._id
+    });
 
     await workout.save();
 
