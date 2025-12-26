@@ -71,7 +71,7 @@ export const startWorkout = async (req, res) => {
       supersetGroups,
       duration: 0,
       status: "in-progress",
-      isRoutine: true,
+      isRoutine: false,
       routineId,
       startTime: Date.now(),
     });
@@ -95,7 +95,8 @@ export const getActiveWorkout = async (req, res) => {
   try {
     const workout = await Workout.findOne({
       userId: req.user.id,
-      status: 'in-progress'
+      status: 'in-progress',
+      isRoutine: { $ne: true } 
     })
       .populate('exercises.exerciseId')
       .populate('supersetGroups.exerciseIds')
@@ -600,8 +601,8 @@ export const updateRoutine = async (req, res) => {
     }
 
     if (routineFolderId !== undefined) {
-  routine.routineFolderId = routineFolderId || null;
-}
+      routine.routineFolderId = routineFolderId || null;
+    }
 
     // Find the routine
     const routine = await Workout.findOne({
