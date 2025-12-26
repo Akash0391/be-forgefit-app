@@ -18,6 +18,7 @@ import exerciseRoutes from "./routes/exerciseRoutes.js";
 import workoutRoutes from "./routes/workoutRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import mongoose from "mongoose";
+import { workoutSocket } from "./sockets/workoutSocket.js";
 
 const app = express();
 
@@ -104,6 +105,7 @@ export const io = new Server(server, {
   }
 });
 
+workoutSocket(io);
 // Start Server
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

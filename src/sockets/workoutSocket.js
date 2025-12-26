@@ -1,9 +1,9 @@
-import { io } from "../server.js";
+
 import Workout from "../models/Workout.js";
 
 const activeUserWorkout = new Map(); // userId → workoutId
 
-export const workoutSocket = () => {
+export const workoutSocket = (io) => {
     io.on("connection", (socket) => {
         console.log("🔥 User Connected:", socket.id);
 
@@ -14,48 +14,64 @@ export const workoutSocket = () => {
             try {
                 console.log("joinWorkout", userId, draftWorkoutId);
 
-                // 🔒 Validate workout really exists + belongs to user
-                const workout = await Workout.findOne({
+                // 🧲 First: if memory knows user's active workout → force join it
+                const existing = activeUserWorkout.get(userId);
+                if (existing) {
+                    console.log("↩️ User already has active workout, rejoining:", existing);
+                    socket.join(existing);
+                    socket.data.userId = userId;
+                    socket.data.workoutId = existing;
+
+                    socket.emit("workout:joined", { workoutId: existing });
+                    return;
+                }
+
+                // 🔍 Try to find valid in-progress workout in DB
+                let workout = await Workout.findOne({
                     _id: draftWorkoutId,
                     userId,
                     status: "in-progress"
                 });
 
+                // 🚀 IF NO IN-PROGRESS WORKOUT → CREATE ONE
                 if (!workout) {
-                    console.log("❌ Invalid or finished workout, blocking join");
-                    socket.emit("workout:error", {
-                        message: "Workout session is no longer active."
+                    console.log("🆕 No active workout found → creating new workout");
+
+                    workout = await Workout.create({
+                        userId,
+                        name: "Workout",
+                        exercises: [],
+                        supersetGroups: [],
+                        status: "in-progress",
+                        startTime: new Date(),
+                        duration: 0,
+                        totalVolumeKg: 0,
+                        totalReps: 0,
                     });
-                    return;
                 }
 
-                /**
-                 * If this user already has an active workout in memory
-                 * keep them in SAME workout room (prevents duplicate sessions)
-                 */
-                const existing = activeUserWorkout.get(userId);
+                const newWorkoutId = workout._id.toString();
 
-                if (existing && existing !== draftWorkoutId) {
-                    console.log("⚠️ User already has another active workout, forcing them into existing room");
-                    socket.join(existing);
-                    return;
-                }
-
-                socket.join(draftWorkoutId);
-
+                // Join room
+                socket.join(newWorkoutId);
                 socket.data.userId = userId;
-                socket.data.workoutId = draftWorkoutId;
+                socket.data.workoutId = newWorkoutId;
 
-                activeUserWorkout.set(userId, draftWorkoutId);
+                activeUserWorkout.set(userId, newWorkoutId);
 
-                console.log("✅ Joined workout room", draftWorkoutId);
+                console.log("✅ Joined workout room", newWorkoutId);
+
+                // 👈 Send ID back to frontend so it can save in sessionStorage
+                socket.emit("workout:joined", { workoutId: newWorkoutId });
+
             } catch (err) {
                 console.error("joinWorkout error:", err);
                 socket.emit("workout:error", {
-                    message: "Unable to join workout session."
+                    message: "Unable to join or start workout."
                 });
             }
         });
+
 
         /**
          * WORKOUT LIVE UPDATE
