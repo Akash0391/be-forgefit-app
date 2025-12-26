@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import Workout from '../models/Workout.js';
 import RoutineFolder from '../models/RoutineFolder.js';
-import cloudinary from "../config/cloudinary.js";
 
 
 
@@ -184,6 +183,13 @@ export const saveWorkout = async (req, res) => {
       workout.supersetGroups = supersetGroupsData;
       if (duration !== undefined) workout.duration = duration;
       if (startTime) workout.startTime = new Date(startTime);
+      if (workout.status !== "in-progress") {
+        workout.status = "in-progress";
+
+        if (!workout.startTime) {
+          workout.startTime = new Date();
+        }
+      }
     } else {
       // Create new workout
       workout = new Workout({
@@ -282,10 +288,12 @@ export const finishWorkout = async (req, res) => {
     // ✅ compute duration + totalVolumeKg + totalReps
     recalculateWorkoutStats(workout);
 
-    // 🔥 Emit to socket room
-    req.io.to(workout._id.toString()).emit("workout:completed", {
-      workoutId: workout._id
-    });
+    if (req.io) {
+      req.io.to(workout._id.toString()).emit("workout:completed", {
+        workoutId: workout._id,
+      });
+    }
+
 
     await workout.save();
 
