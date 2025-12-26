@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  startWorkout,
   getActiveWorkout,
   saveWorkout,
   updateExerciseSets,
@@ -26,6 +27,7 @@ const router = express.Router();
 // All routes require authentication
 router.use(isAuthenticated);
 
+router.post("/start", startWorkout);
 router.get('/active', getActiveWorkout);
 router.post('/save', saveWorkout);
 router.put('/sets', updateExerciseSets);

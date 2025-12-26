@@ -60,6 +60,36 @@ const recalculateWorkoutStats = (workout) => {
   workout.totalReps = totalReps;
 };
 
+export const startWorkout = async (req, res) => {
+  try {
+    const { routineId, exercises, supersetGroups = [] } = req.body;
+
+    const workout = await Workout.create({
+      userId: req.user._id,
+      name: "Workout",
+      exercises,
+      supersetGroups,
+      duration: 0,
+      status: "in-progress",
+      isRoutine: true,
+      routineId,
+      startTime: Date.now(),
+    });
+
+    return res.json({
+      success: true,
+      data: workout,
+    });
+  } catch (err) {
+    console.error("Start workout error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to start workout",
+    });
+  }
+};
+
+
 // Get active workout for user
 export const getActiveWorkout = async (req, res) => {
   try {
