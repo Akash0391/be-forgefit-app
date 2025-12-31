@@ -1,0 +1,137 @@
+name: Deploy ForgeFit Backend
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+      
+      - name: 📦 Install Dependencies
+        run: |
+          echo "Installing production dependencies..."
+          npm ci --production
+          echo "✅ Dependencies installed"
+      
+      - name: 📦 Package Backend
+        run: |
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          ARCHIVE_NAME="forgefit-backend-deploy-${TIMESTAMP}.tar.gz"
+          echo "ARCHIVE_NAME=${ARCHIVE_NAME}" >> $GITHUB_ENV
+          echo "Creating deployment archive: ${ARCHIVE_NAME}..."
+          # Create archive in /tmp to avoid conflicts
+          tar -czf /tmp/${ARCHIVE_NAME} \
+            --exclude='.git' \
+            --exclude='*.log' \
+            --exclude='.env' \
+            --exclude='node_modules/.cache' \
+            .
+            #move to current directory for upload
+            mv /tmp/${ARCHIVE_NAME} .
+          echo "✅ Package created: $(du -h ${ARCHIVE_NAME} | cut -f1)"
+      
+      - name: 📤 Upload to Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          source: "forgefit-backend-deploy-*.tar.gz"
+          target: "/var/www"
+      
+      - name: 🚀 Deploy and Restart Backend
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            set -e
+            
+            echo "📦 Deploying Backend..."
+            cd /var/www/forgefit-backend
+            
+            # Find the most recent archive
+            LATEST_ARCHIVE=$(ls -t /var/www/forgefit-backend-deploy-*.tar.gz 2>/dev/null | head -n 1)
+            
+            if [ -z "$LATEST_ARCHIVE" ]; then
+              echo "❌ Error: No deployment archive found"
+              exit 1
+            fi
+            
+            echo "Using archive: $(basename $LATEST_ARCHIVE)"
+            
+            # Backup current deployment
+            if [ -d "node_modules" ]; then
+              BACKUP_NAME="../forgefit-backend-backup-$(date +%Y%m%d-%H%M%S).tar.gz"
+              echo "Creating backup: $(basename $BACKUP_NAME)..."
+              tar -czf $BACKUP_NAME node_modules 2>/dev/null || true
+            fi
+            
+            # Remove old files
+            rm -rf node_modules
+            
+            # Extract new deployment
+            tar -xzf "$LATEST_ARCHIVE"
+            
+            # Fix permissions
+            chmod -R u+r,go+r node_modules
+            find node_modules/.bin -type f -exec chmod +x {} \; 2>/dev/null || true
+            
+            # Verify deployment
+            if [ ! -f "src/server.js" ]; then
+              echo "❌ Error: server.js not found after extraction"
+              exit 1
+            fi
+            
+            if [ ! -d "node_modules/express" ]; then
+              echo "❌ Error: node_modules appears corrupted"
+              exit 1
+            fi
+
+            cd ..
+            
+            echo "🔄 Restarting backend service..."
+            pm2 restart forgefit-backend || pm2 start ecosystem.config.js --only forgefit-backend
+            
+            echo ""
+            echo "✅ Backend deployment completed!"
+            pm2 status forgefit-backend
+            
+            # Clean up: Remove the archive we just used
+            echo ""
+            echo "🧹 Cleaning up deployment archive..."
+            rm -f "$LATEST_ARCHIVE"
+            
+            # Clean up old archives (keep last 3 backups)
+            echo "🧹 Cleaning up old backups (keeping last 3)..."
+            cd /var/www
+            ls -t forgefit-backend-backup-*.tar.gz 2>/dev/null | tail -n +4 | xargs rm -f 2>/dev/null || true
+            
+            echo "✅ Cleanup completed"
+      
+      - name: ✅ Deployment Summary
+        run: |
+          echo "## 🚀 Backend Deployment Successful!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed at:** $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Backend has been deployed and restarted." >> $GITHUB_STEP_SUMMARY
+
